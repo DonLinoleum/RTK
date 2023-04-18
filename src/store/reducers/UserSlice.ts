@@ -23,9 +23,22 @@ export const userSlice = createSlice({
     reducers:{
         increment(state,action:PayloadAction<number>){
             state.count += action.payload
+        },
+        usersFetching(state){
+            state.isLoading = true
+        },
+        usersFetchingfSuccess(state,action:PayloadAction<IUser[]>){
+            state.isLoading = false
+            state.error = ''
+            state.users = action.payload
+        },
+        usersFetchingError(state,action:PayloadAction<string>){
+            state.isLoading = false
+            state.error = action.payload
         }
+
     }
 })
 
 export default userSlice.reducer
-export const { increment } = userSlice.actions
+export const actions = userSlice.actions

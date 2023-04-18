@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from './store/store';
+import { RootState,AppDispatch } from './store/store';
 
 import './App.css';
 import { useDispatch } from 'react-redux';
-import {increment} from './store/reducers/UserSlice'
+import UserSlice, {userSlice} from './store/reducers/UserSlice'
+import { fetchUsers } from './store/reducers/ActionCreators';
 
 
 function App() {
-  const count = useSelector((state:RootState)=>state.UserSlice.count)
-  const dispatch = useDispatch()
+  const {users} = useSelector((state:RootState)=>state.UserSlice.users)
+  const dispatch:()=>AppDispatch = useDispatch
+  useEffect(()=>{
+    dispatch(fetchUsers())
+  },[])
   return (
     <div className="App">
       <h1 style={{fontSize:"100px"}}>Софокл</h1>
-      <button onClick={()=>dispatch(increment(50))}>Хуй</button>
-      <div>{count}</div>
+      {JSON.stringify(users,null,2)}
+     
     </div>
   );
 }
